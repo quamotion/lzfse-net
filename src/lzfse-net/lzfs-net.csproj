@@ -31,6 +31,9 @@
       <PackagePath>runtimes/osx-x64/native/%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <!-- Binaries for Linux are not included at the moment. -->
+    <Content Include="$(SYSTEM_ARTIFACTSDIRECTORY)/lzfse/ubuntu.16.04-x64/usr/local/lib/liblzfse.so">
+      <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+    </Content>
   </ItemGroup>
 </Project>
