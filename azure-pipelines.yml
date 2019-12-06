@@ -205,7 +205,7 @@ jobs:
       cd src/lzfse-net.demo
 
       echo 'Adding lzfse version $(Build.BuildNumber)'
-      dotnet add package -s $(System.ArtifactsDirectory)/nuget -v $(Build.BuildNumber) lzfs-net
+      dotnet add package -s $(System.ArtifactsDirectory)/nuget -v $(Build.BuildNumber) lzfse-net
       dotnet publish -c Release -f netcoreapp3.0 -r linux-x64 -o $(Build.ArtifactStagingDirectory)/demo/linux-x64
       dotnet publish -c Release -f netcoreapp3.0 -r win7-x64 -o $(Build.ArtifactStagingDirectory)/demo/win7-x64
       dotnet publish -c Release -f netcoreapp3.0 -r win7-x86 -o $(Build.ArtifactStagingDirectory)/demo/win7-x86

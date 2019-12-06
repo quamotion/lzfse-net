@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lzfs-net", "lzfse-net\lzfs-net.csproj", "{F856547D-DD36-4478-8A4A-83B303CEF54C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lzfse-net.Tests", "lzfse-net.Tests\lzfse-net.Tests.csproj", "{59195801-0320-4FD4-8702-8C9BF788C78B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lzfse-net", "lzfse-net\lzfse-net.csproj", "{75063D56-AA6A-4080-A644-E0A1A48C705A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F856547D-DD36-4478-8A4A-83B303CEF54C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F856547D-DD36-4478-8A4A-83B303CEF54C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F856547D-DD36-4478-8A4A-83B303CEF54C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F856547D-DD36-4478-8A4A-83B303CEF54C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59195801-0320-4FD4-8702-8C9BF788C78B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59195801-0320-4FD4-8702-8C9BF788C78B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59195801-0320-4FD4-8702-8C9BF788C78B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59195801-0320-4FD4-8702-8C9BF788C78B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75063D56-AA6A-4080-A644-E0A1A48C705A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75063D56-AA6A-4080-A644-E0A1A48C705A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75063D56-AA6A-4080-A644-E0A1A48C705A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75063D56-AA6A-4080-A644-E0A1A48C705A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
