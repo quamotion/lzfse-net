@@ -39,5 +39,9 @@
       <PackagePath>runtimes/linux-arm64/native/%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
     </Content>
+    <Content Include="$(SYSTEM_ARTIFACTSDIRECTORY)/lzfse/linux-musl-x64/usr/local/lib/liblzfse.so">
+      <PackagePath>runtimes/linux-musl-x64/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+    </Content>
   </ItemGroup>
 </Project>

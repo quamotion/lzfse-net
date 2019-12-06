@@ -96,6 +96,41 @@ jobs:
       publishLocation: 'Container'
     displayName: Publish
 
+- job: native_linux_musl_x64
+  variables:
+    RID: linux-musl-x64
+  container:
+    image: ubuntu:16.04
+    options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
+  steps:
+  - script: |
+      /tmp/docker exec -t -u 0 ci-container \
+      sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
+    displayName: Set up sudo
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y lsb-release build-essential wget gcc cmake musl-tools
+  - script: |
+      lsb_release -a
+    displayName: Check Ubuntu version
+  - script: |
+      wget https://github.com/lzfse/lzfse/archive/lzfse-${LZFSE_VERSION}.tar.gz -O lzfse-${LZFSE_VERSION}.tar.gz
+      tar xvf lzfse-${LZFSE_VERSION}.tar.gz
+    displayName: Download sources
+  - script: |
+      cd lzfse-lzfse-${LZFSE_VERSION}
+      mkdir build
+      cd build
+      cmake -DCMAKE_TOOLCHAIN_FILE=../lzfse.musl-x64.cmake .. ..
+      DESTDIR=${BUILD_ARTIFACTSTAGINGDIRECTORY}/lzfse/${RID} make install
+    displayName: Build
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)/lzfse'
+      artifactName: 'lzfse'
+      publishLocation: 'Container'
+    displayName: Publish
+
 - job: native_linux_x64
   variables:
     RID: linux-x64
