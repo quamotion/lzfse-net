@@ -38,7 +38,6 @@ jobs:
   pool:
     vmImage: 'xcode9-macos10.13'
   variables:
-    TARGET: x86_64-apple-darwin
     RID: osx-x64
   steps:
   - script: |
@@ -62,11 +61,44 @@ jobs:
       publishLocation: 'Container'
     displayName: Publish
 
-- job: native_linux_ubuntu_16_04
+- job: native_linux_arm64
   variables:
-    RID: ubuntu.16.04-x64
-    TARGET: x86_64-unknown-linux-gnu
-    CFLAGS: -fPIC
+    RID: linux-arm64
+  container:
+    image: ubuntu:16.04
+    options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
+  steps:
+  - script: |
+      /tmp/docker exec -t -u 0 ci-container \
+      sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
+    displayName: Set up sudo
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y lsb-release build-essential wget gcc cmake g++-aarch64-linux-gnu
+  - script: |
+      lsb_release -a
+    displayName: Check Ubuntu version
+  - script: |
+      wget https://github.com/lzfse/lzfse/archive/lzfse-${LZFSE_VERSION}.tar.gz -O lzfse-${LZFSE_VERSION}.tar.gz
+      tar xvf lzfse-${LZFSE_VERSION}.tar.gz
+    displayName: Download sources
+  - script: |
+      cd lzfse-lzfse-${LZFSE_VERSION}
+      mkdir build
+      cd build
+      cmake -DCMAKE_TOOLCHAIN_FILE=../lzfse.arm64.cmake ..
+      DESTDIR=${BUILD_ARTIFACTSTAGINGDIRECTORY}/lzfse/${RID} make install
+    displayName: Build
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)/lzfse'
+      artifactName: 'lzfse'
+      publishLocation: 'Container'
+    displayName: Publish
+
+- job: native_linux_x64
+  variables:
+    RID: linux-x64
   container:
     image: ubuntu:16.04
     options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
@@ -103,7 +135,8 @@ jobs:
   dependsOn:
     - native_windows
     - native_macos
-    - native_linux_ubuntu_16_04
+    - native_linux_x64
+    - native_linux_arm64
   pool:
     vmImage: 'vs2017-win2016'
   steps:
