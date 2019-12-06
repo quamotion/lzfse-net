@@ -1,12 +1,22 @@
-﻿using Lzfse;
-using System;
-using System.Text;
-using Xunit;
+﻿// <copyright file="LzfseCompressorTests.cs" company="Quamotion">
+// Copyright (c) Quamotion. All rights reserved.
+// </copyright>
 
-namespace lzfse.Tests
+namespace Lzfse.Tests
 {
+    using System;
+    using System.Text;
+    using Lzfse;
+    using Xunit;
+
+    /// <summary>
+    /// Tests the <see cref="LzfseCompressor"/> class.
+    /// </summary>
     public class LzfseCompressorTests
     {
+        /// <summary>
+        /// Tests compressing and decompressing a byte array.
+        /// </summary>
         [Fact]
         public void RoundtripTest()
         {
@@ -20,6 +30,21 @@ namespace lzfse.Tests
             Assert.Equal("Hello, World!", Encoding.UTF8.GetString(decompressedBuffer, 0, buffer.Length));
         }
 
+        /// <summary>
+        /// Tests the <see cref="LzfseCompressor.Decompress(byte[], int, int, byte[], int, int)"/> method with invalid arguments.
+        /// </summary>
+        /// <param name="offset">
+        /// The offset for the offset parameter.
+        /// </param>
+        /// <param name="length">
+        /// The value for the length parameter.
+        /// </param>
+        /// <param name="decompressedOffset">
+        /// The value for the decompressedOffset parameter.
+        /// </param>
+        /// <param name="decompressedLength">
+        /// The value for the decompressedLength parameter.
+        /// </param>
         [InlineData(-1, 1, 0, 1)]
         [InlineData(0, -1, 0, 1)]
         [InlineData(1025, 1, 0, 1)]
@@ -40,6 +65,9 @@ namespace lzfse.Tests
             Assert.Throws<ArgumentOutOfRangeException>(() => LzfseCompressor.Decompress(buffer, offset, length, decompressedBuffer, decompressedOffset, decompressedLength));
         }
 
+        /// <summary>
+        /// Tests the <see cref="LzfseCompressor.Decompress(byte[], int, int, byte[], int, int)"/> method with <see langword="null"/> arguments.
+        /// </summary>
         [Fact]
         public void CompressNullTest()
         {
@@ -52,6 +80,21 @@ namespace lzfse.Tests
             Assert.Throws<ArgumentNullException>(() => LzfseCompressor.Compress(null, 0, 0, buffer, 0, 0));
         }
 
+        /// <summary>
+        /// Tests the <see cref="LzfseCompressor.Compress(byte[], int, int, byte[], int, int)"/> method with invalid arguments.
+        /// </summary>
+        /// <param name="offset">
+        /// The offset for the offset parameter.
+        /// </param>
+        /// <param name="length">
+        /// The value for the length parameter.
+        /// </param>
+        /// <param name="compressedOffset">
+        /// The value for the compressedOffset parameter.
+        /// </param>
+        /// <param name="compressedLength">
+        /// The value for the compressedLength parameter.
+        /// </param>
         [InlineData(-1, 1, 0, 1)]
         [InlineData(0, -1, 0, 1)]
         [InlineData(1025, 1, 0, 1)]
@@ -72,6 +115,9 @@ namespace lzfse.Tests
             Assert.Throws<ArgumentOutOfRangeException>(() => LzfseCompressor.Decompress(buffer, offset, length, compressedBuffer, compressedOffset, compressedLength));
         }
 
+        /// <summary>
+        /// Tests the <see cref="LzfseCompressor.Compress(byte[], int, int, byte[], int, int)"/> method with <see langword="null"/> arguments.
+        /// </summary>
         [Fact]
         public void DecompressNullTest()
         {

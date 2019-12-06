@@ -1,18 +1,28 @@
-﻿using System;
+﻿// <copyright file="LzfseCompressor.cs" company="Quamotion">
+// Copyright (c) Quamotion. All rights reserved.
+// </copyright>
 
 namespace Lzfse
 {
+    using System;
+
+    /// <summary>
+    /// Provides methods for compressing and decompressing data using LZFSE.
+    /// </summary>
     public class LzfseCompressor
     {
         /// <summary>
-        /// Decompresses a LZFSE compressed buffer
+        /// Decompresses a LZFSE compressed buffer.
         /// </summary>
         /// <param name="buffer">
-        /// The buffer to decompress
+        /// The buffer to decompress.
         /// </param>
         /// <param name="decompressedBuffer">
         /// The buffer into which to decompress the data.
         /// </param>
+        /// <returns>
+        /// The number of bytes written to <paramref name="decompressedBuffer"/>.
+        /// </returns>
         public static unsafe int Decompress(byte[] buffer, byte[] decompressedBuffer)
         {
             if (buffer == null)
@@ -29,10 +39,13 @@ namespace Lzfse
         }
 
         /// <summary>
-        /// Decompresses a LZFSE compressed buffer
+        /// Decompresses a LZFSE compressed buffer.
         /// </summary>
         /// <param name="buffer">
-        /// The buffer to decompress
+        /// The buffer to decompress.
+        /// </param>
+        /// <param name="offset">
+        /// The offset at which to start reading from <paramref name="buffer"/>.
         /// </param>
         /// <param name="length">
         /// The amount of bytes to read from <paramref name="buffer"/>.
@@ -40,10 +53,15 @@ namespace Lzfse
         /// <param name="decompressedBuffer">
         /// The buffer into which to decompress the data.
         /// </param>
+        /// <param name="decompressedOffset">
+        /// The offset at which to start writing to <paramref name="decompressedBuffer"/>.
+        /// </param>
         /// <param name="decompressedLength">
         /// The amount of bytes to write to <paramref name="decompressedBuffer"/>.
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// The number of bytes written to <paramref name="decompressedBuffer"/>.
+        /// </returns>
         public static unsafe int Decompress(byte[] buffer, int offset, int length, byte[] decompressedBuffer, int decompressedOffset, int decompressedLength)
         {
             if (buffer == null)
@@ -111,6 +129,9 @@ namespace Lzfse
         /// <param name="compressedBuffer">
         /// The buffer into which to save the compressed data.
         /// </param>
+        /// <returns>
+        /// The number of bytes written to <paramref name="compressedBuffer"/>.
+        /// </returns>
         public static int Compress(byte[] buffer, byte[] compressedBuffer)
         {
             if (buffer == null)
@@ -132,15 +153,24 @@ namespace Lzfse
         /// <param name="buffer">
         /// The buffer to compress.
         /// </param>
+        /// <param name="offset">
+        /// The offset at which to start reading from <paramref name="buffer"/>.
+        /// </param>
         /// <param name="length">
         /// The amount of bytes to read from <paramref name="buffer"/>.
         /// </param>
         /// <param name="compressedBuffer">
         /// The buffer into which to save the compressed data.
         /// </param>
+        /// <param name="compressedOffset">
+        /// The offset at which to start writing to <paramref name="compressedBuffer"/>.
+        /// </param>
         /// <param name="compressedLength">
         /// The amount of bytes to write to <paramref name="compressedBuffer"/>.
         /// </param>
+        /// <returns>
+        /// The number of bytes written to <paramref name="compressedBuffer"/>.
+        /// </returns>
         public static unsafe int Compress(byte[] buffer, int offset, int length, byte[] compressedBuffer, int compressedOffset, int compressedLength)
         {
             if (buffer == null)
