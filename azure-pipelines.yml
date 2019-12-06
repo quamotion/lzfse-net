@@ -153,16 +153,32 @@ jobs:
 - job: linux_test
   dependsOn: build_test_package
   strategy:
-    maxParallel: 2
+    maxParallel: 10
+    # Roughly match the Linux distros listed here:
+    # https://github.com/dotnet/core/blob/master/release-notes/3.1/3.1-supported-os.md
     matrix:
       centos_7:
         imageName: centos:7
       centos_8:
         imageName: centos:8
-      ubuntu_18_04:
-        imageName: ubuntu:18.04
+      fedora_29:
+        imageName: fedora:29
+      fedora_30:
+        imageName: fedora:30
+      fedora_31:
+        imageName: fedora:31
       debian_9:
         imageName: debian:9
+      debian_10:
+        imageName: debian:10
+      ubuntu_16_04:
+          imageName: ubuntu:16.04
+      ubuntu_18_04:
+          imageName: ubuntu:18.04
+      ubuntu_19_10:
+          imageName: ubuntu:19.10
+      opensuse_15:
+          imageName: opensuse/leap:15
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
@@ -170,10 +186,9 @@ jobs:
     inputs:
       artifactName: demo
   - script: |
-      cd $(System.ArtifactsDirectory)/demo/linux-x64
-      ls .
       chmod +x ./lzfse-net.demo
       ./lzfse-net.demo
+    workingDirectory: $(System.ArtifactsDirectory)/demo/linux-x64
   - script: |
-      cd $(System.ArtifactsDirectory)/demo/linux-x64
-      ldd -l liblzfse.so
+      ldd liblzfse.so
+    workingDirectory: $(System.ArtifactsDirectory)/demo/linux-x64
