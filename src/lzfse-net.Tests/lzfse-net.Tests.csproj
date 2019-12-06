@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\lzfse-net\lzfs-net.csproj" />
+    <ProjectReference Include="..\lzfse-net\lzfse-net.csproj" />
   </ItemGroup>
 
 </Project>
