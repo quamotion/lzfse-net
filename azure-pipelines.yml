@@ -122,3 +122,58 @@ jobs:
       artifactName: 'nuget'
       publishLocation: 'Container'
     displayName: Publish
+
+- job: build_test_package
+  dependsOn: build_package
+  variables:
+    RID: ubuntu.16.04-x64
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      artifactName: nuget
+  - script: |
+      cd src/lzfse-net.demo
+
+      echo 'Adding lzfse version $(Build.BuildNumber)'
+      dotnet add package -s $(System.ArtifactsDirectory)/nuget -v $(Build.BuildNumber) lzfs-net
+      dotnet publish -c Release -f netcoreapp3.0 -r linux-x64 -o $(Build.ArtifactStagingDirectory)/demo/linux-x64
+      dotnet publish -c Release -f netcoreapp3.0 -r win7-x64 -o $(Build.ArtifactStagingDirectory)/demo/win7-x64
+      dotnet publish -c Release -f netcoreapp3.0 -r win7-x86 -o $(Build.ArtifactStagingDirectory)/demo/win7-x86
+      dotnet publish -c Release -f netcoreapp3.0 -r osx-x64 -o $(Build.ArtifactStagingDirectory)/demo/osx-x64
+    displayName: Build
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)/demo'
+      artifactName: 'demo'
+      publishLocation: 'Container'
+    displayName: Publish
+    
+- job: linux_test
+  dependsOn: build_test_package
+  strategy:
+    maxParallel: 2
+    matrix:
+      centos_7:
+        imageName: centos:7
+      centos_8:
+        imageName: centos:8
+      ubuntu_18_04:
+        imageName: ubuntu:18.04
+      debian_9:
+        imageName: debian:9
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      artifactName: demo
+  - script: |
+      cd $(System.ArtifactsDirectory)/demo/linux-x64
+      ls .
+      chmod +x ./lzfse-net.demo
+      ./lzfse-net.demo
+  - script: |
+      cd $(System.ArtifactsDirectory)/demo/linux-x64
+      ldd -l liblzfse.so
