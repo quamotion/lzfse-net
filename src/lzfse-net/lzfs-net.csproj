@@ -5,10 +5,30 @@
     <RootNamespace>Lzfse</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <Product>.NET bindings and native libraries for LZSFE</Product>
+    <Description>LZFSE is a Lempel-Ziv style data compression algorithm using Finite State Entropy coding. It targets similar compression rates at higher compression and decompression speed compared to deflate using zlib.</Description>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
   </PropertyGroup>
   
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
+
+  <ItemGroup Condition="'$(SYSTEM_ARTIFACTSDIRECTORY)' != ''">
+    <!-- Native libraries; these files come from VSTS artifacts -->
+    <Content Include="$(SYSTEM_ARTIFACTSDIRECTORY)/lzfse/win7-x64/bin/lzfse.dll">
+      <PackagePath>runtimes/win-x64/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="$(SYSTEM_ARTIFACTSDIRECTORY)/lzfse/win7-x86/bin/lzfse.dll">
+      <PackagePath>runtimes/win-x86/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="$(SYSTEM_ARTIFACTSDIRECTORY)/lzfse/osx-x64/usr/local/lib/liblzfse.dylib">
+      <PackagePath>runtimes/osx-x64/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <!-- Binaries for Linux are not included at the moment. -->
+  </ItemGroup>
 </Project>
