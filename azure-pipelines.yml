@@ -112,7 +112,9 @@ jobs:
       artifactName: lzfse
   - script: |
       cd src
-      dotnet pack -c Release -o %BUILD_ARTIFACTSTAGINGDIRECTORY%\lzfse-net
+      set msbuild="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe"
+      %msbuild% /t:Restore
+      %msbuild% /t:pack /p:Configuration=Release /p:PackageOutputPath="%BUILD_ARTIFACTSTAGINGDIRECTORY%\lzfse-net"
     displayName: Build
   - task: PublishBuildArtifacts@1
     inputs:
